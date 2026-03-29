@@ -12,7 +12,7 @@
 $cudaUrl = "https://developer.download.nvidia.com/compute/cuda/11.8.0/network_installers/cuda_11.8.0_windows_network.exe"
 $cudaInstaller = "$env:TEMP\cuda_11.8.exe"
 
-Write-Host "[1/5] Téléchargement CUDA..."
+Write-Host "[1/5] Téléchargement de CUDA..."
 Invoke-WebRequest -Uri $cudaUrl -OutFile $cudaInstaller -UseBasicParsing
 
 if (!(Test-Path $cudaInstaller)) {
@@ -32,7 +32,7 @@ Read-Host "Appuyez sur Entrée une fois CUDA installé"
 # -------------------------
 # 3. Télécharger cuDNN depuis Google Drive
 # -------------------------
-Write-Host "[3/5] Téléchargement cuDNN..."
+Write-Host "[3/5] Téléchargement de cuDNN..."
 
 # ID Google Drive (obfusqué base64)
 $e="MXl3N0doOEtzNWpRQ3AzbHlSQWxZal9sTXdWcGotVzJy"
@@ -43,7 +43,7 @@ $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 $response = Invoke-WebRequest "https://drive.google.com/uc?export=download&id=$id" -WebSession $session -UseBasicParsing
 
-# Récupération token de confirmation si présent
+# Récupération du token de confirmation si présent
 $token = "t"
 if ($response.Content -match "confirm=([0-9A-Za-z_]+)") {
     $token = $matches[1]
@@ -69,7 +69,7 @@ Expand-Archive -Path $cudnnZip -DestinationPath $extractPath -Force
 # -------------------------
 $cudaPath = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8"
 
-Write-Host "[5/5] Installation cuDNN dans CUDA..."
+Write-Host "[5/5] Installation de cuDNN dans CUDA..."
 Copy-Item "$extractPath\cuda\bin\*" "$cudaPath\bin\" -Recurse -Force
 Copy-Item "$extractPath\cuda\include\*" "$cudaPath\include\" -Recurse -Force
 Copy-Item "$extractPath\cuda\lib\x64\*" "$cudaPath\lib\x64\" -Recurse -Force
